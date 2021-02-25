@@ -7,16 +7,16 @@ import Footer from "./Footer";
 import styled from "styled-components";
 import {TProduct} from "../types";
 import Product from "./Product";
+require("dotenv").config();
 
 const ProductsPage = () => {
 	const [products, setProducts] = useState<TProduct[]>([]);
 	const [pageNumber, setPageNumber] = useState(0);
 
 	useEffect(() => {
-		fetch(`http://127.0.0.1:8000/api/products/`)
+		fetch(`${process.env.DJANGO_DEV_URL}/api/products/`)
 			.then(res => res.json())
 			.then(data => setProducts(data.reverse()));
-		console.log(process.env.DJANGO_DEV_URL);
 	}, []);
 
 	const productsPerPage = 9;
