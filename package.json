@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "parcel ./src/index.html"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,13 @@
   },
   "homepage": "https://github.com/Dawid-Dahl/stereo-nightclub-client#readme",
   "dependencies": {
+    "@types/react-paginate": "^6.2.1",
+    "dotenv": "^5.0.1",
     "parcel-bundler": "^1.12.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-paginate": "^7.1.0",
+    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.2.1"
   },

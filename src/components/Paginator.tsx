@@ -1,14 +1,20 @@
 import React from "react";
-import ReactPaginate from "react-paginate";
+import ReactPaginate, {ReactPaginateProps} from "react-paginate";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const Paginator = ({pageCount, setPageNumber}) => {
-	const changePage = ({selected}) => setPageNumber(selected);
+type Props = {
+	pageCount: number;
+	setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const Paginator: React.FC<Props> = ({pageCount, setPageNumber}) => {
+	const changePage = ({selected}: any) => setPageNumber(selected);
 
 	return (
 		<Wrapper>
 			<ReactPaginate
+				pageRangeDisplayed={3}
 				previousLabel={"<  Previous"}
 				nextLabel={"Next  >"}
 				pageCount={pageCount}
@@ -30,10 +36,5 @@ const Wrapper = styled.div`
 	height: 100%;
 	margin: 0.5em 0 1em 0;
 `;
-
-Paginator.propTypes = {
-	pageCount: PropTypes.number.isRequired,
-	setPageNumber: PropTypes.number.isRequired,
-};
 
 export default Paginator;

@@ -6,6 +6,68 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <script src="./index.tsx" defer></script>
         <title>Stereo Nightclub</title>
+        <style>
+            :root {
+				box-sizing: border-box;
+				--main-color: #1e1e20;
+				--main-color-light: #222324;
+				--main-color-border: #292a2b;
+				--text-color-dark: #6c6f73;
+				--delete-color: #ff7e7e;
+				--delete-color-hover: #fa6a6a;
+				--border-radius: 2em;
+				--border-radius-card: 1em;
+				--box-shadow:rgb(50, 50, 93) 0px 20px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+				--box-shadow-light: 0px 1px 19px 2px rgba(0, 0, 0, 0.044);
+				--font-size-small: 0.5em;
+			}
+			
+			body {
+				font-family: 'Roboto', sans-serif;
+				font-size: 18px;
+				margin: 0px;
+				color: white;
+			}
+
+            .paginator-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--main-color-light);
+	list-style: none;
+	border-radius: var(--border-radius);
+	margin: 0;
+	padding: 0;
+}
+
+.paginator-container {
+	overflow: hidden;
+}
+
+.paginator-container a {
+	outline: none;
+}
+
+.paginator-container li {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 2em;
+	padding: 0 5px;
+	cursor: pointer;
+	font-size: var(--font-size-small);
+	font-weight: bold;
+	transition: background-color 0.2s;
+}
+
+.paginator-container li:hover {
+	background-color: var(--text-color-dark);
+}
+
+.pagination-active {
+	background-color: var(--text-color-dark);
+}
+        </style>
     </head>
     <body>
         <div id="root"></div>

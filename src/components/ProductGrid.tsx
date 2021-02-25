@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import {TProduct} from "../types";
 
-export const ProductGrid = ({displayProducts, products}) => {
+type Props = {
+	displayProducts: (products: TProduct[]) => JSX.Element[];
+	products: TProduct[];
+};
+
+export const ProductGrid: React.FC<Props> = ({displayProducts, products}) => {
 	return (
 		<Wrapper>
 			<Grid>{displayProducts(products)}</Grid>

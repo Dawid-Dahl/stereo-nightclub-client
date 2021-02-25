@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import {TProduct} from "../types";
 
-const Product = ({title, image, description, price, ingredients}) => {
+type Props = TProduct;
+
+const Product: React.FC<Props> = ({title, image, description, price}) => {
 	return (
 		<Wrapper>
 			<Overlay>
@@ -14,14 +17,6 @@ const Product = ({title, image, description, price, ingredients}) => {
 			<p>{description}</p>
 		</Wrapper>
 	);
-};
-
-Product.propTypes = {
-	title: PropTypes.string.isRequired,
-	image: PropTypes.string,
-	description: PropTypes.string.isRequired,
-	price: PropTypes.number.isRequired,
-	ingredients: PropTypes.array.isRequired,
 };
 
 const Wrapper = styled.div`

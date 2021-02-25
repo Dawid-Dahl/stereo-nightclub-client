@@ -5,22 +5,25 @@ import Paginator from "./Paginator";
 import GetInTouch from "./GetInTouch";
 import Footer from "./Footer";
 import styled from "styled-components";
+import {TProduct} from "../types";
 import Product from "./Product";
 
 const ProductsPage = () => {
-	const [products, setProducts] = useState([]);
+	const [products, setProducts] = useState<TProduct[]>([]);
 	const [pageNumber, setPageNumber] = useState(0);
 
-	useEffect(async () => {
-		const data = await (await fetch("api/products/")).json();
-		setProducts(data.reverse());
+	useEffect(() => {
+		fetch(`http://127.0.0.1:8000/api/products/`)
+			.then(res => res.json())
+			.then(data => setProducts(data.reverse()));
+		console.log(process.env.DJANGO_DEV_URL);
 	}, []);
 
 	const productsPerPage = 9;
 	const pagesVisited = pageNumber * productsPerPage;
 	const pageCount = Math.ceil(products.length / productsPerPage);
 
-	const displayProducts = products =>
+	const displayProducts = (products: TProduct[]) =>
 		products
 			.slice(pagesVisited, pagesVisited + productsPerPage)
 			.map(({id, title, image, description, price}) => (
@@ -46,6 +49,7 @@ const ProductsPage = () => {
 
 const Wrapper = styled.div`
 	background-color: var(--main-color);
+	min-height: 100vh;
 	height: 100%;
 `;
 
