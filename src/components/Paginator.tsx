@@ -1,6 +1,5 @@
 import React from "react";
-import ReactPaginate, {ReactPaginateProps} from "react-paginate";
-import PropTypes from "prop-types";
+import ReactPaginate from "react-paginate";
 import styled from "styled-components";
 
 type Props = {

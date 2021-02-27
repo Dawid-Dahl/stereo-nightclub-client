@@ -2,14 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import {TProduct} from "../types";
+import {loadingSpinner} from "../content/icons/icons";
 
 type Props = {
 	displayProducts: (products: TProduct[]) => JSX.Element[];
 	products: TProduct[];
+	isLoading: boolean;
 };
 
-export const ProductGrid: React.FC<Props> = ({displayProducts, products}) => {
-	return (
+export const ProductGrid: React.FC<Props> = ({displayProducts, products, isLoading}) => {
+	return isLoading ? (
+		<LoadingSpinner>
+			<img src={loadingSpinner.imageLink} alt="loading spinner" />
+		</LoadingSpinner>
+	) : (
 		<Wrapper>
 			<Grid>{displayProducts(products)}</Grid>
 		</Wrapper>
@@ -41,6 +47,15 @@ const Grid = styled.div`
 	@media only screen and (max-width: 480px) {
 		grid-template-columns: repeat(1, 1fr);
 	}
+`;
+
+const LoadingSpinner = styled.div`
+	width: 100%;
+	height: 100%;
+	margin: 2em 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 export default ProductGrid;

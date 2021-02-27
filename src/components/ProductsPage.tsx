@@ -12,11 +12,16 @@ require("dotenv").config();
 const ProductsPage = () => {
 	const [products, setProducts] = useState<TProduct[]>([]);
 	const [pageNumber, setPageNumber] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
+		setIsLoading(true);
 		fetch(`${process.env.DJANGO_DEV_URL}/api/products/`)
 			.then(res => res.json())
-			.then(data => setProducts(data.reverse()));
+			.then(data => {
+				setProducts(data.reverse());
+				setIsLoading(false);
+			});
 	}, []);
 
 	const productsPerPage = 9;
@@ -38,11 +43,19 @@ const ProductsPage = () => {
 
 	return (
 		<Wrapper>
-			<Header />
-			<ProductGrid displayProducts={displayProducts} products={products} />
-			<Paginator pageCount={pageCount} setPageNumber={setPageNumber} />
-			<GetInTouch />
-			<Footer />
+			<ContentWrapper>
+				<Header />
+				<ProductGrid
+					displayProducts={displayProducts}
+					products={products}
+					isLoading={isLoading}
+				/>
+			</ContentWrapper>
+			<FooterWrapper>
+				<Paginator pageCount={pageCount} setPageNumber={setPageNumber} />
+				<GetInTouch />
+				<Footer />
+			</FooterWrapper>
 		</Wrapper>
 	);
 };
@@ -51,6 +64,13 @@ const Wrapper = styled.div`
 	background-color: var(--main-color);
 	min-height: 100vh;
 	height: 100%;
+	display: flex;
+	flex-direction: column;
 `;
+
+const ContentWrapper = styled.div`
+	flex: 1 0 auto;
+`;
+const FooterWrapper = styled.div``;
 
 export default ProductsPage;
