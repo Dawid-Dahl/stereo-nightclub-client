@@ -19,7 +19,11 @@ const ProductsPage = () => {
 		fetch(`${process.env.DJANGO_API_URL}/api/products/`)
 			.then(res => res.json())
 			.then(data => {
-				setProducts(data.reverse());
+				if (data.length > 1) {
+					setProducts(data.reverse());
+				} else {
+					setProducts([data]);
+				}
 				setIsLoading(false);
 			});
 	}, []);
@@ -31,20 +35,30 @@ const ProductsPage = () => {
 	const displayProducts = (products: TProduct[]) =>
 		products
 			.slice(pagesVisited, pagesVisited + productsPerPage)
-			.map(({id, title, image, description, price}) => (
+			.map(({id, title, image, description, price, ingredient}) => (
 				<Product
 					key={id}
+					id={id}
 					title={title}
 					image={image}
 					description={description}
 					price={price}
+					ingredient={ingredient}
 				/>
 			));
 
 	return (
 		<Wrapper>
+			<Header />
 			<ContentWrapper>
-				<Header />
+				<h1>WELCOME TO STEREO CLUB</h1>
+				<h3>
+					<span>WE CREATE</span> Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+					Cumque vitae vel id commodi sed inventore debitis. Ipsum consectetur rerum
+					placeat, ratione fugiat, reprehenderit error harum officia nisi esse recusandae
+					tempora quis animi omnis amet, suscipit itaque cum! Debitis similique odio
+					dolor? Ipsum consectetur rerum placeat.
+				</h3>
 				<ProductGrid
 					displayProducts={displayProducts}
 					products={products}
@@ -70,6 +84,32 @@ const Wrapper = styled.div`
 
 const ContentWrapper = styled.div`
 	flex: 1 0 auto;
+	flex-direction: column;
+
+	h1 {
+		font-size: 1em;
+		text-align: center;
+		margin: 0.9em 0 0.3em 0;
+	}
+
+	h3 {
+		text-align: center;
+		font-size: var(--font-size-small);
+		line-height: 1.7em;
+		font-weight: 400;
+		max-width: 350px;
+		margin: 0 auto;
+
+		span {
+			font-weight: bold;
+		}
+	}
+
+	@media only screen and (max-width: 480px) {
+		h3 {
+			padding: 2em;
+		}
+	}
 `;
 const FooterWrapper = styled.div``;
 

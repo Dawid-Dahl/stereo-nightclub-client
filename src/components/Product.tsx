@@ -1,17 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 import {TProduct} from "../types";
 
 type Props = TProduct;
 
-const Product: React.FC<Props> = ({title, image, description, price}) => {
+const Product: React.FC<Props> = ({id, title, image, description, price, ingredient}) => {
 	return (
 		<Wrapper>
-			<Overlay>
-				<h2>{price} $</h2>
-				<p>Blah blah blah</p>
-			</Overlay>
-			<Image src={image} />
+			<Link to={`product?=${id}`}>
+				<Overlay>
+					<h2>{price} $</h2>
+					<p>{ingredient}</p>
+				</Overlay>
+				<Image src={image} />
+			</Link>
 			<h1 className="product-h1">{title.toUpperCase()}</h1>
 			<p>{description}</p>
 		</Wrapper>
@@ -19,12 +22,22 @@ const Product: React.FC<Props> = ({title, image, description, price}) => {
 };
 
 const Wrapper = styled.div`
-	position: relative;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 80%;
+
+	a {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex: 1;
+		text-decoration: none;
+		color: inherit;
+	}
 
 	h1 {
 		margin: 0.8em 0 0.2em 0;
@@ -68,11 +81,16 @@ const Overlay = styled.div`
 `;
 
 const Image = styled.img`
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	object-fit: cover;
 	object-position: center;
 	cursor: pointer;
+
+	@media only screen and (max-width: 480px) {
+		height: 19em;
+		max-width: 19em;
+	}
 `;
 
 export default Product;
