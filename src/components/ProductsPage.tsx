@@ -16,6 +16,7 @@ const ProductsPage = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
+		console.log("THE URL: ", `${process.env.DJANGO_API_URL}/api/products/`);
 		fetch(`${process.env.DJANGO_API_URL}/api/products/`)
 			.then(res => res.json())
 			.then(data => {
