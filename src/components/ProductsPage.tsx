@@ -86,10 +86,10 @@ const ContentWrapper = styled.div`
 	flex: 1 0 auto;
 	flex-direction: column;
 
-	h1 {
-		font-size: 1em;
+	> h1 {
+		font-size: var(--font-size-header);
 		text-align: center;
-		margin: 0.9em 0 0.3em 0;
+		margin: 1.1em 0 0.5em 0;
 	}
 
 	h3 {

@@ -8,14 +8,14 @@ type Props = TProduct;
 const Product: React.FC<Props> = ({id, title, image, description, price, ingredient}) => {
 	return (
 		<Wrapper>
-			<Link to={`product?=${id}`}>
+			<Link to={`product?id=${id}`}>
 				<Overlay>
 					<h2>{price} $</h2>
 					<p>{ingredient}</p>
 				</Overlay>
 				<Image src={image} />
 			</Link>
-			<h1 className="product-h1">{title.toUpperCase()}</h1>
+			<h1>{title.toUpperCase()}</h1>
 			<p>{description}</p>
 		</Wrapper>
 	);
@@ -27,6 +27,7 @@ const Wrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	box-shadow: var(--bpx-shadow);
 
 	a {
 		position: relative;
@@ -41,7 +42,7 @@ const Wrapper = styled.div`
 
 	h1 {
 		margin: 0.8em 0 0.2em 0;
-		font-size: 0.65em;
+		font-size: var(--font-size-main);
 		text-align: center;
 		cursor: pointer;
 	}
