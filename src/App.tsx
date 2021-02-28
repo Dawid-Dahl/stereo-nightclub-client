@@ -2,13 +2,17 @@ import React from "react";
 import ProductsPage from "./components/ProductsPage";
 import ProductPage from "./components/ProductPage";
 import {Switch, Route} from "react-router-dom";
+import Admin from "./components/Admin";
+import Login from "./components/Login";
 
 const App: React.FC = () => {
 	return (
 		<>
 			<Switch>
-				<Route exact path="/" component={ProductsPage} />
 				<Route path="/product" component={ProductPage} />
+				<Route path="/admin" component={Admin} />
+				<Route path="/login" component={Login} />
+				<Route exact path="/" component={ProductsPage} />
 			</Switch>
 		</>
 	);

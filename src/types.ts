@@ -6,3 +6,8 @@ export type TProduct = {
 	price: number;
 	ingredient?: Array<any>;
 };
+
+export type TUser = {
+	username: string;
+	email?: string;
+};

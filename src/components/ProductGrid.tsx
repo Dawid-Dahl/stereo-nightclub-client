@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import {TProduct} from "../types";
 import {loadingSpinner} from "../content/icons/icons";
 
@@ -20,11 +19,6 @@ export const ProductGrid: React.FC<Props> = ({displayProducts, products, isLoadi
 			<Grid>{displayProducts(products)}</Grid>
 		</Wrapper>
 	);
-};
-
-ProductGrid.propTypes = {
-	displayProducts: PropTypes.func.isRequired,
-	products: PropTypes.array.isRequired,
 };
 
 const Wrapper = styled.div`

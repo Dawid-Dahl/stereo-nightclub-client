@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	box-shadow: var(--bpx-shadow);
+	box-shadow: var(--box-shadow);
 
 	a {
 		position: relative;
