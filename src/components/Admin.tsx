@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Header from "./Header";
 import styled from "styled-components";
 import {loadingSpinner} from "../content/icons/icons";
+import JWTFetch from "../utils/utils";
 
 const Admin = () => {
 	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -9,11 +10,9 @@ const Admin = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		fetch(`${process.env.DJANGO_API_URL}/api/user/is-logged-in`, {
+		JWTFetch(`${process.env.DJANGO_API_URL}/api/users/is-logged-in`, {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization:
-					"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjE0NTAxNjc2LCJqdGkiOiI3ZmU3ODU5MzkxZGY0ZTY3ODUyYmQxNDllYmEzZDMyNiIsInVzZXJfaWQiOjF9.QvMbWvqJd0CXYAkerPZ1bBPjQzpzaeTIllhjPtTWZ-s",
 			},
 		})
 			.then(res => res.json())

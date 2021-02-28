@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Dawid-Dahl/stereo-nightclub-client#readme",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@types/react-paginate": "^6.2.1",
     "cors": "^2.8.5",
     "dotenv": "^5.0.1",

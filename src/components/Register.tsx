@@ -12,7 +12,6 @@ import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
-import JWTFetch from "../utils/utils";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -43,12 +42,13 @@ const darkTheme = createMuiTheme({
 	},
 });
 
-const Login = () => {
+const Register = () => {
 	const history = useHistory();
 
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
+		user_name: "",
 	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,8 +62,7 @@ const Login = () => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
-		JWTFetch(`${process.env.DJANGO_API_URL}/api/token/`, {
+		fetch(`${process.env.DJANGO_API_URL}/api/users/register/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -71,16 +70,25 @@ const Login = () => {
 			body: JSON.stringify(Object.freeze(formData)),
 		})
 			.then(res => res.json())
-			.then(data => {
-				if (data.access || data.refresh) {
-					localStorage.setItem("x-token", data.access);
-					localStorage.setItem("refresh-token", data.refresh);
-					history.push("/admin");
-				} else {
-					alert(data.detail);
+			.then(
+				(data: {
+					email?: string | string[];
+					user_name?: string | string[];
+					password?: string | string[];
+				}) => {
+					if (data.email && data.user_name) {
+						localStorage.setItem("x-token", data.access);
+						localStorage.setItem("refresh-token", data.refresh);
+						history.push("/admin");
+					} else if (Array.isArray(data.email)) {
+						alert(data.email.reduce((acc, cur) => `${acc} ${cur}`.trim(), ""));
+					} else if (Array.isArray(data.password)) {
+						alert(data.password.reduce((acc, cur) => `${acc} ${cur}`.trim(), ""));
+					} else {
+						alert(data);
+					}
 				}
-			})
-			.catch(console.error);
+			);
 	};
 
 	return (
@@ -94,7 +102,7 @@ const Login = () => {
 							<LockOutlinedIcon />
 						</Avatar>
 						<Typography component="h1" variant="h5">
-							Sign in
+							Register
 						</Typography>
 						<form className={classes.form} onSubmit={handleSubmit}>
 							<TextField
@@ -121,6 +129,17 @@ const Login = () => {
 								autoComplete="current-password"
 								onChange={handleChange}
 							/>
+							<TextField
+								variant="outlined"
+								margin="normal"
+								required
+								fullWidth
+								name="user_name"
+								label="Username"
+								type="user_name"
+								id="user_name"
+								onChange={handleChange}
+							/>
 							<Button
 								type="submit"
 								fullWidth
@@ -128,17 +147,12 @@ const Login = () => {
 								color="default"
 								className={classes.submit}
 							>
-								Sign In
+								Register
 							</Button>
 							<Grid container>
-								{/* <Grid item xs>
-									<Link href="#" variant="body2">
-										Forgot password?
-									</Link>
-								</Grid> */}
 								<Grid item>
-									<Link href="/register" variant="body2">
-										{"Don't have an account? Sign Up"}
+									<Link href="/login" variant="body2">
+										{"Already registered? Log in"}
 									</Link>
 								</Grid>
 							</Grid>
@@ -150,7 +164,7 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Register;
 
 const OuterWrapper = styled.div`
 	background-color: var(--main-color);

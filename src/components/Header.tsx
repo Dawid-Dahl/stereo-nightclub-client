@@ -46,6 +46,12 @@ const GreyBanner = styled.div`
 		text-decoration: none;
 		color: var(--main-color-medium);
 		font-size: var(--font-size-header);
+		transition: color 0.2s;
+		font-weight: 100;
+	}
+
+	a:hover {
+		color: var(--text-color-dark);
 	}
 `;
 
