@@ -1,72 +1,64 @@
 import React, {useState} from "react";
-import Header from "./Header";
 import styled from "styled-components";
+import Header from "./Header";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LocalBarIcon from "@material-ui/icons/LocalBar";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import {ThemeProvider} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
-import {getAndSetTokens} from "../utils/utils";
+import {JWTFetch, getAndSetTokens} from "../utils/utils";
 import {darkTheme, useStyles} from "../material-ui/styles";
 
-const Register = () => {
+type Props = {};
+
+const AddProduct: React.FC<Props> = () => {
+	const classes = useStyles();
 	const history = useHistory();
 
 	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
-		user_name: "",
+		product: "",
+		title: "",
+		image: "",
+		description: "",
+		price: "",
 	});
+
+	const options = [
+		{
+			value: "Drink",
+			label: "Drink",
+		},
+		{
+			value: "Food",
+			label: "Food",
+		},
+	];
+
+	const [product, setProduct] = useState(options[0].value);
+
+	const handleSelect = (e: React.ChangeEvent<{value: unknown}>) => {
+		if (e.target.value) {
+			setProduct(e.target.value as string);
+		}
+	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({
 			...formData,
+			["product"]: product,
 			[e.target.name]: e.target.value.trim(),
 		});
+
+		console.log(e.target.name);
+		console.log(formData);
 	};
 
-	const classes = useStyles();
-
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		fetch(`${process.env.DJANGO_API_URL}/api/users/register/`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(Object.freeze(formData)),
-		})
-			.then(res => res.json())
-			.then(
-				(data: {
-					email?: string | string[];
-					user_name?: string | string[];
-					password?: string | string[];
-				}) => {
-					if (data.email && data.user_name) {
-						getAndSetTokens(formData.email, formData.password).then(tokens => {
-							if (tokens) {
-								history.push("/admin");
-							} else {
-								alert("We couldn't log you in at this time.");
-							}
-						});
-					} else if (Array.isArray(data.email)) {
-						alert(data.email.reduce((acc, cur) => `${acc} ${cur}`.trim(), ""));
-					} else if (Array.isArray(data.password)) {
-						alert(data.password.reduce((acc, cur) => `${acc} ${cur}`.trim(), ""));
-					} else {
-						alert(data);
-					}
-				}
-			)
-			.catch(console.error);
-	};
+	const handleSubmit = () => {};
 
 	return (
 		<OuterWrapper>
@@ -76,22 +68,35 @@ const Register = () => {
 				<Container component="main" maxWidth="xs">
 					<div className={classes.paper}>
 						<Avatar className={classes.avatar} style={{backgroundColor: "#3f9bbe"}}>
-							<LockOutlinedIcon />
+							<LocalBarIcon />
 						</Avatar>
 						<Typography component="h1" variant="h5">
-							Register
+							Add A Product
 						</Typography>
 						<form className={classes.form} onSubmit={handleSubmit}>
 							<TextField
+								id="standard-select-product"
+								select
+								label="Select"
+								value={product}
+								onChange={handleSelect}
+								helperText="Please select your type of product"
+							>
+								{options.map(option => (
+									<MenuItem key={option.value} value={option.value}>
+										{option.label}
+									</MenuItem>
+								))}
+							</TextField>
+							<TextField
 								variant="outlined"
 								margin="normal"
 								required
 								fullWidth
-								id="email"
-								label="Email Address"
-								name="email"
-								autoComplete="email"
-								autoFocus
+								name="title"
+								label="Product Name"
+								type="text"
+								id="title"
 								onChange={handleChange}
 							/>
 							<TextField
@@ -99,11 +104,10 @@ const Register = () => {
 								margin="normal"
 								required
 								fullWidth
-								name="password"
-								label="Password"
-								type="password"
-								id="password"
-								autoComplete="current-password"
+								name="image"
+								label="Image Url"
+								type="text"
+								id="image"
 								onChange={handleChange}
 							/>
 							<TextField
@@ -111,10 +115,22 @@ const Register = () => {
 								margin="normal"
 								required
 								fullWidth
-								name="user_name"
-								label="Username"
-								type="user_name"
-								id="user_name"
+								name="description"
+								label="Description"
+								type="text"
+								id="description"
+								onChange={handleChange}
+							/>
+							<TextField
+								id="outlined-number"
+								label="Price"
+								type="number"
+								name="price"
+								margin="normal"
+								InputLabelProps={{
+									shrink: true,
+								}}
+								variant="outlined"
 								onChange={handleChange}
 							/>
 							<Button
@@ -124,15 +140,8 @@ const Register = () => {
 								color="default"
 								className={classes.submit}
 							>
-								Register
+								Add
 							</Button>
-							<Grid container>
-								<Grid item>
-									<Link href="/login" variant="body2">
-										{"Already registered? Log in"}
-									</Link>
-								</Grid>
-							</Grid>
 						</form>
 					</div>
 				</Container>
@@ -141,17 +150,16 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default AddProduct;
 
 const OuterWrapper = styled.div`
 	background-color: var(--main-color);
 	height: 100vh;
 `;
 
-const InnerWrapper = styled.div`
+const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	background-color: white;
 `;

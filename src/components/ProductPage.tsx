@@ -23,7 +23,7 @@ const ProductPage = () => {
 
 	return (
 		<OuterWrapper>
-			<Header isLinkVisible linktitle="Back" link="/" openInNewTab={false} />
+			<Header isLinkVisible linktitle="home" link="/" openInNewTab={false} />
 			<InnerWrapper>
 				<ProductWrapper>
 					<ImageWrapper>

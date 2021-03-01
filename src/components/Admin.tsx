@@ -59,7 +59,7 @@ const Admin = () => {
 
 	return (
 		<OuterWrapper>
-			<Header isLinkVisible linktitle="Back" link="/" openInNewTab={false} />
+			<Header isLinkVisible linktitle="home" link="/" openInNewTab={false} />
 			{isLoading ? (
 				<LoadingSpinner>
 					<img src={loadingSpinner.imageLink} alt="loading spinner" />
@@ -97,14 +97,20 @@ const InnerWrapper = styled.div`
 	flex-direction: column;
 	height: 80%;
 
-	h1 {
+	> h1 {
+		margin-top: 3em;
 		text-align: center;
-		margin: 1em;
 	}
 
-	a {
-		/* font-size: var(--font-size-header); */
-		color: var(--main-color-blue);
+	> a {
+		font-size: var(--font-size-header);
+		transition: color 0.2s;
+		color: var(--main-color-blue-dark);
+
+		:hover {
+			text-decoration: none;
+			color: var(--main-color-blue);
+		}
 	}
 `;
 

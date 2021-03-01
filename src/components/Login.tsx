@@ -13,35 +13,7 @@ import Container from "@material-ui/core/Container";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
 import {JWTFetch} from "../utils/utils";
-
-const useStyles = makeStyles(theme => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: "100%", // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
-
-const darkTheme = createMuiTheme({
-	palette: {
-		type: "dark",
-		primary: {
-			main: "#3f9bbe",
-		},
-	},
-});
+import {darkTheme, useStyles} from "../material-ui/styles";
 
 const Login = () => {
 	const history = useHistory();
@@ -85,7 +57,7 @@ const Login = () => {
 
 	return (
 		<OuterWrapper>
-			<Header isLinkVisible linktitle="Back" link="/" openInNewTab={false} />
+			<Header isLinkVisible linktitle="home" link="/" openInNewTab={false} />
 
 			<ThemeProvider theme={darkTheme}>
 				<Container component="main" maxWidth="xs">
