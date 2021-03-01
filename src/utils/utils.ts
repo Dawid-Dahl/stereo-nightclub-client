@@ -41,3 +41,29 @@ export const getAndSetTokens = (
 			});
 	});
 };
+
+export const isXTokenExpired = () => {
+	const token = localStorage.getItem("x-token");
+
+	const now = Math.ceil(Date.now() / 1000);
+
+	if (token) {
+		const parsedToken = JSON.parse(atob(token.split(".")[1]));
+		return parsedToken.exp > now ? false : true;
+	}
+
+	return true;
+};
+
+export const isRefreshTokenExpired = () => {
+	const token = localStorage.getItem("refresh-token");
+
+	const now = Math.ceil(Date.now() / 1000);
+
+	if (token) {
+		const parsedToken = JSON.parse(atob(token.split(".")[1]));
+		return parsedToken.exp > now ? false : true;
+	}
+
+	return true;
+};

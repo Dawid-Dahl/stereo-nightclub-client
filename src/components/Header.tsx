@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {isUserLoggedIn} from "../utils/utils";
+import {isRefreshTokenExpired, isUserLoggedIn, isXTokenExpired} from "../utils/utils";
 
 type Props = {
 	isLinkVisible: boolean;
@@ -14,6 +14,9 @@ const Header: React.FC<Props> = ({isLinkVisible, linktitle, link, openInNewTab})
 
 	useEffect(() => {
 		if (isUserLoggedIn()) setIsLoggedIn(true);
+
+		console.log("X", isXTokenExpired());
+		console.log(isRefreshTokenExpired());
 	}, []);
 
 	return (
