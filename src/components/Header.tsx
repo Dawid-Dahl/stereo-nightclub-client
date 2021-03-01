@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {isRefreshTokenExpired, isUserLoggedIn, isXTokenExpired} from "../utils/utils";
+import {isRefreshTokenExpired, isUserLoggedIn, isXTokenExpired, logout} from "../utils/utils";
 
 type Props = {
 	isLinkVisible: boolean;
@@ -14,9 +14,6 @@ const Header: React.FC<Props> = ({isLinkVisible, linktitle, link, openInNewTab})
 
 	useEffect(() => {
 		if (isUserLoggedIn()) setIsLoggedIn(true);
-
-		console.log("X", isXTokenExpired());
-		console.log(isRefreshTokenExpired());
 	}, []);
 
 	return (
@@ -30,7 +27,7 @@ const Header: React.FC<Props> = ({isLinkVisible, linktitle, link, openInNewTab})
 					<>
 						<a href={link}>{linktitle?.toLowerCase()}</a>
 						{isLoggedIn && (
-							<a href={"/"} onClick={() => localStorage.clear()}>
+							<a href={"/"} onClick={logout}>
 								logout
 							</a>
 						)}
