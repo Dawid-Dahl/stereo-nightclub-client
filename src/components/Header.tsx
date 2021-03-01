@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
+import {isUserLoggedIn} from "../utils/utils";
 
 type Props = {
 	isLinkVisible: boolean;
@@ -9,6 +10,12 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({isLinkVisible, linktitle, link, openInNewTab}) => {
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	useEffect(() => {
+		if (isUserLoggedIn()) setIsLoggedIn(true);
+	}, []);
+
 	return (
 		<Wrapper>
 			<GreyBanner>
@@ -17,7 +24,14 @@ const Header: React.FC<Props> = ({isLinkVisible, linktitle, link, openInNewTab})
 						{linktitle?.toLowerCase()}
 					</a>
 				) : (
-					<a href={link}>{linktitle?.toLowerCase()}</a>
+					<>
+						<a href={link}>{linktitle?.toLowerCase()}</a>
+						{isLoggedIn && (
+							<a href={"/"} onClick={() => localStorage.clear()}>
+								logout
+							</a>
+						)}
+					</>
 				)}
 			</GreyBanner>
 			<Logo src="https://i.imgur.com/REHNLOH.png" />

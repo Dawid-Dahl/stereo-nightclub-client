@@ -12,6 +12,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
+import {JWTFetch, getAndSetTokens} from "../utils/utils";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -77,9 +78,13 @@ const Register = () => {
 					password?: string | string[];
 				}) => {
 					if (data.email && data.user_name) {
-						localStorage.setItem("x-token", data.access);
-						localStorage.setItem("refresh-token", data.refresh);
-						history.push("/admin");
+						getAndSetTokens(formData.email, formData.password).then(tokens => {
+							if (tokens) {
+								history.push("/admin");
+							} else {
+								alert("We couldn't log you in at this time.");
+							}
+						});
 					} else if (Array.isArray(data.email)) {
 						alert(data.email.reduce((acc, cur) => `${acc} ${cur}`.trim(), ""));
 					} else if (Array.isArray(data.password)) {
@@ -88,7 +93,8 @@ const Register = () => {
 						alert(data);
 					}
 				}
-			);
+			)
+			.catch(console.error);
 	};
 
 	return (

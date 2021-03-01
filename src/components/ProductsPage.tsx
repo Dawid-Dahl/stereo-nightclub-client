@@ -49,7 +49,7 @@ const ProductsPage = () => {
 
 	return (
 		<Wrapper>
-			<Header isLinkVisible linktitle="Admin" link="login" openInNewTab={false} />
+			<Header isLinkVisible linktitle="Admin" link="admin" openInNewTab={false} />
 			<ContentWrapper>
 				<h1>WELCOME TO STEREO CLUB</h1>
 				<h3>

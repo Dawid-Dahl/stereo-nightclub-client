@@ -12,7 +12,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
-import JWTFetch from "../utils/utils";
+import {JWTFetch} from "../utils/utils";
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -72,7 +72,7 @@ const Login = () => {
 		})
 			.then(res => res.json())
 			.then(data => {
-				if (data.access || data.refresh) {
+				if (data.access && data.refresh) {
 					localStorage.setItem("x-token", data.access);
 					localStorage.setItem("refresh-token", data.refresh);
 					history.push("/admin");

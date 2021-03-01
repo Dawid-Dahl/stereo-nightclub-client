@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import Header from "./Header";
 import styled from "styled-components";
 import {loadingSpinner} from "../content/icons/icons";
-import JWTFetch from "../utils/utils";
+import {JWTFetch} from "../utils/utils";
+import Link from "@material-ui/core/Link";
 
 const Admin = () => {
 	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -38,7 +39,13 @@ const Admin = () => {
 				</InnerWrapper>
 			) : (
 				<InnerWrapper>
-					<h1>You're not an admin.</h1>
+					<h1>You must be an admin to view this page.</h1>
+					<Link href="/login" variant="body2">
+						{"Log in now"}
+					</Link>
+					<Link href="/register" variant="body2">
+						{"Or register"}
+					</Link>
 				</InnerWrapper>
 			)}
 		</OuterWrapper>
@@ -56,11 +63,22 @@ const InnerWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
 	height: 80%;
+
+	h1 {
+		text-align: center;
+		margin: 1em;
+	}
+
+	a {
+		/* font-size: var(--font-size-header); */
+		color: var(--main-color-blue);
+	}
 `;
 
 const LoadingSpinner = styled.div`
-	margin: 38vh;
+	margin: 38vh 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;

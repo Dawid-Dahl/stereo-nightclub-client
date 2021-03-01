@@ -13,8 +13,6 @@ const ProductPage = () => {
 
 	const productId = Number(query.get("id"));
 
-	console.log(window.location.pathname);
-
 	const capFirst = (str?: string) => str && `${str[0].toUpperCase()}${str.slice(1)}`;
 
 	useEffect(() => {
