@@ -67,6 +67,14 @@ const GreyBanner = styled.div`
 	a:hover {
 		color: var(--text-color-dark);
 	}
+
+	@media only screen and (max-width: 480px) {
+		justify-content: space-between;
+
+		a {
+			margin: 0 1em;
+		}
+	}
 `;
 
 const Logo = styled.img`

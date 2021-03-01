@@ -5,10 +5,12 @@ import {loadingSpinner} from "../content/icons/icons";
 import {isRefreshTokenExpired, isXTokenExpired, logout, refreshAndSetXToken} from "../utils/utils";
 import Link from "@material-ui/core/Link";
 import {useHistory} from "react-router-dom";
+import AuthorizedAdminPage from "./AuthorizedAdminPage";
 
 const Admin = () => {
 	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [username, setUserName] = useState("");
 	const history = useHistory();
 
 	useEffect(() => {
@@ -45,6 +47,16 @@ const Admin = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		const token = localStorage.getItem("refresh-token");
+
+		if (token) {
+			const parsedToken = JSON.parse(atob(token.split(".")[1]));
+
+			setUserName(parsedToken.name);
+		}
+	}, []);
+
 	return (
 		<OuterWrapper>
 			<Header isLinkVisible linktitle="Back" link="/" openInNewTab={false} />
@@ -54,7 +66,7 @@ const Admin = () => {
 				</LoadingSpinner>
 			) : isUserLoggedIn ? (
 				<InnerWrapper>
-					<h1>SUPER SECRET</h1>
+					<AuthorizedAdminPage username={username} />
 				</InnerWrapper>
 			) : (
 				<InnerWrapper>
@@ -81,7 +93,7 @@ const OuterWrapper = styled.div`
 const InnerWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	flex-direction: column;
 	height: 80%;
 
