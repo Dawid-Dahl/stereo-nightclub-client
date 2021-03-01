@@ -35,7 +35,7 @@ const Login = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		JWTFetch(`${process.env.DJANGO_API_URL}/api/token/`, {
+		fetch(`${process.env.DJANGO_API_URL}/api/token/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

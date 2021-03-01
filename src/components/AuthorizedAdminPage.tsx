@@ -2,19 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import AddProduct from "./AddProduct";
+import ShieldPage from "./ShieldPage";
 
 type Props = {
 	username: string;
+	isUserLoggedIn: boolean;
 };
 
-const AuthorizedAdminPage: React.FC<Props> = ({username}) => {
-	return (
+const AuthorizedAdminPage: React.FC<Props> = ({username, isUserLoggedIn}) => {
+	return isUserLoggedIn ? (
 		<Wrapper>
 			<h1>{`Hello, ${username}!`}</h1>
 			<Link to={"addProduct"}>
 				<Option>Add a product</Option>
 			</Link>
 		</Wrapper>
+	) : (
+		<ShieldPage />
 	);
 };
 

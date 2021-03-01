@@ -3,9 +3,9 @@ import Header from "./Header";
 import styled from "styled-components";
 import {loadingSpinner} from "../content/icons/icons";
 import {isRefreshTokenExpired, isXTokenExpired, logout, refreshAndSetXToken} from "../utils/utils";
-import Link from "@material-ui/core/Link";
 import {useHistory} from "react-router-dom";
 import AuthorizedAdminPage from "./AuthorizedAdminPage";
+import ShieldPage from "./ShieldPage";
 
 const Admin = () => {
 	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -66,18 +66,10 @@ const Admin = () => {
 				</LoadingSpinner>
 			) : isUserLoggedIn ? (
 				<InnerWrapper>
-					<AuthorizedAdminPage username={username} />
+					<AuthorizedAdminPage username={username} isUserLoggedIn={isUserLoggedIn} />
 				</InnerWrapper>
 			) : (
-				<InnerWrapper>
-					<h1>You must be an admin to view this page.</h1>
-					<Link href="/login" variant="body2">
-						{"Log in now"}
-					</Link>
-					<Link href="/register" variant="body2">
-						{"Or register"}
-					</Link>
-				</InnerWrapper>
+				<ShieldPage />
 			)}
 		</OuterWrapper>
 	);

@@ -11,8 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import {ThemeProvider} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
-import {JWTFetch, getAndSetTokens} from "../utils/utils";
 import {darkTheme, useStyles} from "../material-ui/styles";
+import {JWTFetch} from "../utils/utils";
 
 type Props = {};
 
@@ -53,12 +53,23 @@ const AddProduct: React.FC<Props> = () => {
 			["product"]: product,
 			[e.target.name]: e.target.value.trim(),
 		});
-
-		console.log(e.target.name);
-		console.log(formData);
 	};
 
-	const handleSubmit = () => {};
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		JWTFetch(`${process.env.DJANGO_API_URL}/api/products/create/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(Object.freeze(formData)),
+		})
+			.then(res => res.json())
+			.then((data: any) => {
+				console.log("RESPONSE FROM DJANGO: ", data);
+			})
+			.catch(console.error);
+	};
 
 	return (
 		<OuterWrapper>

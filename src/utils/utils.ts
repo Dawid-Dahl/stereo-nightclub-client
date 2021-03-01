@@ -1,29 +1,3 @@
-export const JWTFetch = (input: RequestInfo, init?: RequestInit | undefined): Promise<Response> => {
-	if (localStorage["x-token"]) {
-		if (!init) init = {headers: {}};
-
-		if (isXTokenExpired()) {
-			if (isRefreshTokenExpired()) {
-				alert("You're refresh token has expired, please log back in again");
-				window.location.href = "/login/";
-			}
-
-			const refreshToken = localStorage.getItem("refresh-token");
-
-			if (refreshToken) {
-				refreshAndSetXToken(refreshToken);
-			} else {
-				throw new Error("There was a problem accessing the local storage.");
-			}
-		}
-
-		// @ts-ignore
-		init.headers["Authorization"] = `Bearer ${localStorage["x-token"]}`;
-	}
-
-	return fetch(input, init);
-};
-
 export const isUserLoggedIn = (): boolean =>
 	localStorage.getItem("x-token") && localStorage.getItem("refresh-token") ? true : false;
 
@@ -82,6 +56,52 @@ export const refreshAndSetXToken = (refreshToken: string): Promise<{access: stri
 			});
 	});
 };
+
+const unconfiguredJWTFetch = (
+	refreshAndSetXToken: (
+		refreshToken: string
+	) => Promise<{
+		access: string;
+	} | null>
+) => async (input: RequestInfo, init?: RequestInit | undefined): Promise<Response> => {
+	const refreshToken = localStorage.getItem("refresh-token");
+	const xToken = localStorage.getItem("x-token");
+
+	try {
+		if (refreshToken) {
+			const res = await refreshAndSetXToken(refreshToken);
+
+			if (res) {
+				if (xToken) {
+					if (!init) init = {headers: {}};
+
+					if (isXTokenExpired()) {
+						if (isRefreshTokenExpired()) {
+							alert("You're refresh token has expired, please log back in again");
+							window.location.href = "/login/";
+							throw new Error(
+								"You're refresh token has expired, please log back in again"
+							);
+						}
+					}
+
+					// @ts-ignore
+					init.headers["Authorization"] = `Bearer ${res.access}`;
+
+					return fetch(input, init);
+				}
+			} else {
+				throw new Error("Something went wrong while refreshing the x-token");
+			}
+		}
+		throw new Error("Couldn't get the refresh token.");
+	} catch (e) {
+		console.error(e);
+		throw new Error("Something went wrong while preparing the fetch request.");
+	}
+};
+
+export const JWTFetch = unconfiguredJWTFetch(refreshAndSetXToken);
 
 export const isXTokenExpired = () => {
 	const token = localStorage.getItem("x-token");
