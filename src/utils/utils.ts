@@ -94,10 +94,12 @@ const unconfiguredJWTFetch = (
 				throw new Error("Something went wrong while refreshing the x-token");
 			}
 		}
-		throw new Error("Couldn't get the refresh token.");
+		throw new Error("Post requests without logging in is not allowed.");
 	} catch (e) {
 		console.error(e);
-		throw new Error("Something went wrong while preparing the fetch request.");
+		throw new Error(
+			"Something went wrong while preparing the fetch request, or user wasn't logged in."
+		);
 	}
 };
 

@@ -3,14 +3,12 @@ import styled from "styled-components";
 import Header from "./Header";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import LocalBarIcon from "@material-ui/icons/LocalBar";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import {ThemeProvider} from "@material-ui/core/styles";
-import {useHistory} from "react-router-dom";
 import {darkTheme, useStyles} from "../material-ui/styles";
 import {JWTFetch} from "../utils/utils";
 
@@ -18,15 +16,16 @@ type Props = {};
 
 const AddProduct: React.FC<Props> = () => {
 	const classes = useStyles();
-	const history = useHistory();
 
-	const [formData, setFormData] = useState({
-		product: "",
+	const formDataDefault = {
+		product_type: "",
 		title: "",
 		image: "",
 		description: "",
-		price: "",
-	});
+		price: 0,
+	};
+
+	const [formData, setFormData] = useState(formDataDefault);
 
 	const options = [
 		{
@@ -40,6 +39,9 @@ const AddProduct: React.FC<Props> = () => {
 	];
 
 	const [product, setProduct] = useState(options[0].value);
+	const [price, setPrice] = useState(0);
+
+	const resetFields = () => (setFormData(formDataDefault), setPrice(0));
 
 	const handleSelect = (e: React.ChangeEvent<{value: unknown}>) => {
 		if (e.target.value) {
@@ -47,15 +49,20 @@ const AddProduct: React.FC<Props> = () => {
 		}
 	};
 
+	const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPrice(parseInt(e.target.value));
+	};
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({
 			...formData,
-			["product"]: product,
 			[e.target.name]: e.target.value.trim(),
 		});
 	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		formData["product_type"] = product.toUpperCase();
+		formData["price"] = price;
 		e.preventDefault();
 		JWTFetch(`${process.env.DJANGO_API_URL}/api/products/create/`, {
 			method: "POST",
@@ -66,7 +73,8 @@ const AddProduct: React.FC<Props> = () => {
 		})
 			.then(res => res.json())
 			.then((data: any) => {
-				console.log("RESPONSE FROM DJANGO: ", data);
+				alert(`Your product ${data.title} was added successfully!`);
+				resetFields();
 			})
 			.catch(console.error);
 	};
@@ -108,6 +116,7 @@ const AddProduct: React.FC<Props> = () => {
 								label="Product Name"
 								type="text"
 								id="title"
+								value={formData["title"]}
 								onChange={handleChange}
 							/>
 							<TextField
@@ -119,6 +128,7 @@ const AddProduct: React.FC<Props> = () => {
 								label="Image Url"
 								type="text"
 								id="image"
+								value={formData["image"]}
 								onChange={handleChange}
 							/>
 							<TextField
@@ -130,6 +140,7 @@ const AddProduct: React.FC<Props> = () => {
 								label="Description"
 								type="text"
 								id="description"
+								value={formData["description"]}
 								onChange={handleChange}
 							/>
 							<TextField
@@ -138,11 +149,12 @@ const AddProduct: React.FC<Props> = () => {
 								type="number"
 								name="price"
 								margin="normal"
+								value={price}
 								InputLabelProps={{
 									shrink: true,
 								}}
 								variant="outlined"
-								onChange={handleChange}
+								onChange={handlePrice}
 							/>
 							<Button
 								type="submit"
