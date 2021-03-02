@@ -53,6 +53,10 @@ const Wrapper = styled.div`
 		color: var(--text-color-dark);
 		font-size: var(--font-size-small);
 	}
+
+	@media only screen and (max-width: 480px) {
+		box-shadow: none;
+	}
 `;
 
 const Overlay = styled.div`
@@ -91,6 +95,7 @@ const Image = styled.img`
 	@media only screen and (max-width: 480px) {
 		height: 19em;
 		max-width: 19em;
+		box-shadow: var(--box-shadow);
 	}
 `;
 

@@ -56,7 +56,7 @@ const AddProduct: React.FC<Props> = () => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({
 			...formData,
-			[e.target.name]: e.target.value.trim(),
+			[e.target.name]: e.target.value,
 		});
 	};
 

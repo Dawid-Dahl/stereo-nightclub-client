@@ -131,7 +131,8 @@ const ContentFrame = styled.div`
 		font-weight: 400;
 	}
 
-	h4 {
+	@media only screen and (max-width: 1200px) {
+		margin: 4em 4em 4em 2em;
 	}
 `;
 
