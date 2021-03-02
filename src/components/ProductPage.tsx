@@ -3,20 +3,42 @@ import styled from "styled-components";
 import {useQuery} from "../custom-hooks/useQuery";
 import {TProduct} from "../types";
 import Header from "./Header";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import {JWTFetch} from "../utils/utils";
+import {useHistory} from "react-router";
 
 const ProductPage = () => {
 	const [product, setProduct] = useState<TProduct | null>(null);
 
 	const query = useQuery();
+	const history = useHistory();
 
 	const productId = Number(query.get("id"));
 
 	const capFirst = (str?: string) => str && `${str[0].toUpperCase()}${str.slice(1)}`;
 
+	const handleDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+		confirm(
+			"Are you sure you want to delete your account? All associated data will be deleted as well."
+		) &&
+			JWTFetch(`${process.env.DJANGO_API_URL}/api/products/delete/${productId}`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+				.then(res => res.json())
+				.then(data => {
+					alert(data.msg);
+					history.push("/");
+				});
+	};
+
 	useEffect(() => {
 		fetch(`${process.env.DJANGO_API_URL}/api/product/${productId}`)
 			.then(res => res.json())
-			.then(data => setProduct(data));
+			.then(data => setProduct(data))
+			.catch(e => history.push("/"));
 	}, []);
 
 	return (
@@ -24,6 +46,9 @@ const ProductPage = () => {
 			<Header isLinkVisible linktitle="home" link="/" openInNewTab={false} />
 			<InnerWrapper>
 				<ProductWrapper>
+					<IconWrapper onClick={handleDelete}>
+						<DeleteForeverIcon />
+					</IconWrapper>
 					<ImageWrapper>
 						<Image src={product?.image} />
 					</ImageWrapper>
@@ -65,6 +90,7 @@ const InnerWrapper = styled.div`
 `;
 
 const ProductWrapper = styled.div`
+	position: relative;
 	background-color: var(--main-color-light);
 	height: 100%;
 	width: 80%;
@@ -141,6 +167,23 @@ const ContentFrame = styled.div`
 
 	@media only screen and (max-width: 1200px) {
 		margin: 4em 4em 4em 2em;
+	}
+`;
+
+const IconWrapper = styled.div`
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	transition: color 0.4s;
+	cursor: pointer;
+	color: var(--text-color-dark);
+
+	svg {
+		font-size: 2rem;
+	}
+
+	:hover {
+		color: var(--delete-color-hover);
 	}
 `;
 

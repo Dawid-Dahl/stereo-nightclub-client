@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {useHistory} from "react-router";
 import styled from "styled-components";
 import {isRefreshTokenExpired, isUserLoggedIn, isXTokenExpired, logout} from "../utils/utils";
 
@@ -11,6 +12,7 @@ type Props = {
 
 const Header: React.FC<Props> = ({isLinkVisible, linktitle, link, openInNewTab}) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const history = useHistory();
 
 	useEffect(() => {
 		if (isUserLoggedIn()) setIsLoggedIn(true);
@@ -34,7 +36,7 @@ const Header: React.FC<Props> = ({isLinkVisible, linktitle, link, openInNewTab})
 					</>
 				)}
 			</GreyBanner>
-			<Logo src="https://i.imgur.com/REHNLOH.png" />
+			<Logo src="https://i.imgur.com/REHNLOH.png" onClick={() => history.push("/")} />
 		</Wrapper>
 	);
 };
@@ -81,6 +83,7 @@ const Logo = styled.img`
 	width: 7em;
 	margin-top: 0.5em;
 	z-index: 1;
+	cursor: pointer;
 `;
 
 export default Header;
