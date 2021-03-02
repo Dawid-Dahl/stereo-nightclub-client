@@ -4,7 +4,7 @@ import {useQuery} from "../custom-hooks/useQuery";
 import {TProduct} from "../types";
 import Header from "./Header";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import {JWTFetch} from "../utils/utils";
+import {isUserLoggedIn, JWTFetch} from "../utils/utils";
 import {useHistory} from "react-router";
 
 const ProductPage = () => {
@@ -46,9 +46,11 @@ const ProductPage = () => {
 			<Header isLinkVisible linktitle="home" link="/" openInNewTab={false} />
 			<InnerWrapper>
 				<ProductWrapper>
-					<IconWrapper onClick={handleDelete}>
-						<DeleteForeverIcon />
-					</IconWrapper>
+					{isUserLoggedIn() && (
+						<IconWrapper onClick={handleDelete}>
+							<DeleteForeverIcon />
+						</IconWrapper>
+					)}
 					<ImageWrapper>
 						<Image src={product?.image} />
 					</ImageWrapper>

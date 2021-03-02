@@ -5,13 +5,18 @@ import {TProduct} from "../types";
 
 type Props = TProduct;
 
-const Product: React.FC<Props> = ({id, title, image, description, price, ingredient}) => {
+const Product: React.FC<Props> = ({id, title, image, description, price, ingredients}) => {
 	return (
 		<Wrapper>
 			<Link to={`product?id=${id}`}>
 				<Overlay>
 					<h2>{price} $</h2>
-					<p>{ingredient}</p>
+					<p>
+						{ingredients
+							?.map(x => ` ${x.title}`)
+							.toString()
+							.trim()}
+					</p>
 				</Overlay>
 				<Image src={image} />
 			</Link>
@@ -49,9 +54,9 @@ const Wrapper = styled.div`
 
 	p {
 		margin: 0 0 1em 0;
-		text-align: center;
 		color: var(--text-color-dark);
 		font-size: var(--font-size-small);
+		font-weight: bold;
 	}
 
 	@media only screen and (max-width: 480px) {
@@ -65,8 +70,8 @@ const Overlay = styled.div`
 	align-items: flex-start;
 	justify-content: flex-end;
 	flex-direction: column;
-	width: 80%;
-	height: 70%;
+	width: 85%;
+	height: 85%;
 	transition: opacity 0.2s;
 	opacity: 0;
 	cursor: pointer;

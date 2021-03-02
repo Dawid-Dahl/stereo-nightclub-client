@@ -35,7 +35,7 @@ const ProductsPage = () => {
 	const displayProducts = (products: TProduct[]) =>
 		products
 			.slice(pagesVisited, pagesVisited + productsPerPage)
-			.map(({id, title, image, description, price, ingredient}) => (
+			.map(({id, title, image, description, price, ingredients}) => (
 				<Product
 					key={id}
 					id={id}
@@ -43,7 +43,7 @@ const ProductsPage = () => {
 					image={image}
 					description={description}
 					price={price}
-					ingredient={ingredient}
+					ingredients={ingredients}
 				/>
 			));
 

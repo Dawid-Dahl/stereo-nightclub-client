@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import AddProduct from "./AddProduct";
 import ShieldPage from "./ShieldPage";
 
 type Props = {

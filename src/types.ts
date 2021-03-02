@@ -4,7 +4,12 @@ export type TProduct = {
 	image: string;
 	description: string;
 	price: number;
-	ingredient?: Array<any>;
+	ingredients?: Array<Ingredient>;
+};
+
+export type Ingredient = {
+	price: string;
+	title: string;
 };
 
 export type TUser = {
