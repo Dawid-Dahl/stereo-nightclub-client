@@ -3,8 +3,6 @@ import styled from "styled-components";
 import {useQuery} from "../custom-hooks/useQuery";
 import {TProduct} from "../types";
 import Header from "./Header";
-import {Link} from "react-router-dom";
-import ProductsPage from "./ProductsPage";
 
 const ProductPage = () => {
 	const [product, setProduct] = useState<TProduct | null>(null);
@@ -45,6 +43,10 @@ const ProductPage = () => {
 const OuterWrapper = styled.div`
 	background-color: var(--main-color);
 	height: 100vh;
+
+	@media only screen and (max-height: 480px) {
+		height: 100%;
+	}
 `;
 
 const InnerWrapper = styled.div`
@@ -53,6 +55,12 @@ const InnerWrapper = styled.div`
 
 	@media only screen and (max-width: 740px) {
 		margin-top: 2em;
+	}
+
+	@media only screen and (max-height: 480px) {
+		height: 100%;
+		margin-top: 2em;
+		padding-bottom: 3em;
 	}
 `;
 

@@ -104,6 +104,14 @@ const InnerWrapper = styled.div`
 			color: var(--main-color-blue);
 		}
 	}
+
+	@media only screen and (max-height: 480px) {
+		h1 {
+			margin: 1em;
+		}
+
+		height: auto;
+	}
 `;
 
 const LoadingSpinner = styled.div`
