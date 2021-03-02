@@ -58,7 +58,7 @@ const ProductPage = () => {
 						<ContentFrame>
 							<h1>{capFirst(product?.title)}</h1>
 							<h3>{product?.description}</h3>
-							<h4>{product?.price}</h4>
+							<h4>{product && `${product?.price} $`}</h4>
 						</ContentFrame>
 					</ContentWrapper>
 				</ProductWrapper>

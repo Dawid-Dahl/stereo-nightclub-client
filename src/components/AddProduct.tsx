@@ -76,7 +76,10 @@ const AddProduct: React.FC<Props> = () => {
 				alert(`Your product ${data.title} was added successfully!`);
 				resetFields();
 			})
-			.catch(console.error);
+			.catch(e => {
+				console.error(e);
+				alert("Are you trying to add a drink without being logged in? Fat chance...");
+			});
 	};
 
 	return (
